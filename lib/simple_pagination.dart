@@ -75,6 +75,7 @@ class _SimplePagenationState extends State<SimplePagenation> {
     if ((showTo > 0 && widget.children.length > 0)) {
       return Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             // slised list
 
@@ -82,62 +83,61 @@ class _SimplePagenationState extends State<SimplePagenation> {
 
             // nav
             Container(
-              alignment: Alignment.centerRight,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    // previous Button
-                    InkWell(
-                      onTap: () {
-                        _moveTo(currentPage - 1);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(6.0),
-                        height: 30,
-                        decoration: widget.decoration,
-                        child: widget.previousIcon,
-                      ),
+              alignment: Alignment.bottomRight,
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  // previous Button
+                  InkWell(
+                    onTap: () {
+                      _moveTo(currentPage - 1);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(6.0),
+                      height: 30,
+                      decoration: widget.decoration,
+                      child: widget.previousIcon,
                     ),
-                    //page numbers list
-                    ...List.generate(
-                      numberOfPages,
-                      (index) => index,
-                    ).map((index) => InkWell(
-                          onTap: () {
-                            _moveTo(index);
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(6.0),
-                            decoration: (currentPage == index)
-                                ? widget.currentPageDecoration
-                                : widget.decoration,
-                            height: 30,
-                            child: Text(
-                              (index + 1).toString(),
-                              style: widget.textStyle,
-                            ),
+                  ),
+                  //page numbers list
+                  ...List.generate(
+                    numberOfPages,
+                    (index) => index,
+                  ).crop(currentPage, numberOfPages, 4).map((index) => InkWell(
+                        onTap: () {
+                          _moveTo(index);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(6.0),
+                          decoration: (currentPage == index)
+                              ? widget.currentPageDecoration
+                              : widget.decoration,
+                          height: 30,
+                          child: Text(
+                            (index + 1).toString(),
+                            style: widget.textStyle,
                           ),
-                        )),
-                    // next Button
-                    InkWell(
-                      onTap: () {
-                        _moveTo(currentPage + 1);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(6.0),
-                        height: 30,
-                        decoration: widget.decoration,
-                        child: widget.nextIcon,
-                      ),
+                        ),
+                      )),
+                  // next Button
+                  InkWell(
+                    onTap: () {
+                      _moveTo(currentPage + 1);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(6.0),
+                      height: 30,
+                      decoration: widget.decoration,
+                      child: widget.nextIcon,
                     ),
-                  ]
-                      .map((e) => Padding(
-                            padding: widget.padding,
-                            child: e,
-                          ))
-                      .toList(),
-                ),
+                  ),
+                ]
+                    .map((e) => Padding(
+                          padding: widget.padding,
+                          child: e,
+                        ))
+                    .toList(),
               ),
             )
           ],
@@ -166,16 +166,16 @@ extension FocusCrop on List {
     return this.sublist(start, end + 1);
   }
 
-  List crop(currentIndex, int length) {
+  List crop(currentIndex, int length, int maxLength) {
     int start = currentIndex, end = currentIndex;
     List<int> list = [currentIndex];
-    for (var i = length; i > 1; i--) {
-      if (i % 2 == 0 && list.length <= this.length) {
-        start--;
-        list.insert(0, start);
-      } else if (list.length <= this.length) {
-        end++;
-        list.add(end);
+    for (var i = 1; i <= maxLength; i++) {
+      if (start + 1 < length) {
+        start++;
+        list.add(start);
+      } else if (end - 1 >= 0) {
+        end--;
+        list.insert(0, end);
       }
     }
     return list;

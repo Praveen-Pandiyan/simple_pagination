@@ -1,8 +1,8 @@
 name: simple_pagination
-description: A simple Pagination Widget for your Large list
+description: A simple Pagination Widget for your Large list of widgets
 version: 0.0.1
 author: Praveen<praveen.json@gmail.com>
-homepage:
+homepage: https://github.com/Praveen-Aanand/simple_pagination.git
 environment:
   sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.17.0"
