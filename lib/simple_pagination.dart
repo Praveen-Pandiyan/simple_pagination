@@ -12,17 +12,17 @@ class SimplePagenation extends StatefulWidget {
   const SimplePagenation(
       {Key? key,
       required this.children,
-      this.itemsPerPage: 5,
-      this.nextIcon: const Icon(Icons.arrow_forward, size: 20),
-      this.previousIcon: const Icon(Icons.arrow_back, size: 20),
-      this.decoration: const BoxDecoration(
+      this.itemsPerPage = 5,
+      this.nextIcon = const Icon(Icons.arrow_forward, size: 20),
+      this.previousIcon = const Icon(Icons.arrow_back, size: 20),
+      this.decoration = const BoxDecoration(
         color: Colors.blue,
       ),
-      this.currentPageDecoration: const BoxDecoration(
+      this.currentPageDecoration = const BoxDecoration(
         color: Colors.blueAccent,
       ),
-      this.padding: const EdgeInsets.all(0.0),
-      this.textStyle: const TextStyle(fontSize: 18)})
+      this.padding = const EdgeInsets.all(0.0),
+      this.textStyle = const TextStyle(fontSize: 18)})
       : super(key: key);
 
   @override
